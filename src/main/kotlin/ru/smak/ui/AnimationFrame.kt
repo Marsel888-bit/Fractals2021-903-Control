@@ -2,43 +2,27 @@ package ru.smak.ui
 
 import ru.smak.ui.painting.KeyFramesPanel
 import ru.smak.ui.painting.SelectablePanel
-import ru.smak.ui.painting.VideoMaker
-import ru.smak.ui.painting.fractals.FractalPainter
 import java.awt.Color
 import java.awt.Dimension
-import java.awt.Rectangle
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import java.awt.image.BufferedImage
 import javax.swing.*
-import javax.swing.filechooser.FileNameExtensionFilter
 
-class AnimationFrame(private val selectablePanel: SelectablePanel, private val fractalPainter: FractalPainter) : JFrame() {
+class AnimationFrame(private val selectablePanel: SelectablePanel) : JFrame() {
     val ctrlPanel : JPanel
-    val kfLabel : JLabel
+    val animLabel : JLabel
     val frameScroll : JScrollPane
     val keyFramesPanel : JPanel
     val addKeyFrame : JButton
-    val createVideoBtn : JButton
-    val frameTimeLbl : JLabel
-    val frameTimeSpinner : JSpinner
-    val frameTimeModel : SpinnerNumberModel
-    val fileChooser : JFileChooser
+    val makeVideo: JButton
     init {
         defaultCloseOperation = EXIT_ON_CLOSE
         title = "Экскурсия"
         minimumSize = Dimension(1200, 700)
-        kfLabel = JLabel().apply {
-            text = "Ключевые кадры"
+        animLabel = JLabel().apply {
+            text = "Создание анимации"
             font = getFont().deriveFont(16.0f)
-        }
-        frameTimeLbl = JLabel().apply {
-            text = "Время смены ключевых кадров (с):"
-        }
-        frameTimeModel = SpinnerNumberModel(5, 1, 10, 1)
-        frameTimeSpinner = JSpinner(frameTimeModel)
-        createVideoBtn = JButton().apply {
-            text = "Создать видео"
         }
         keyFramesPanel = KeyFramesPanel().apply {
             background = Color.GRAY
@@ -46,23 +30,15 @@ class AnimationFrame(private val selectablePanel: SelectablePanel, private val f
         frameScroll = JScrollPane(keyFramesPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER).apply {
             preferredSize = Dimension(300, 400)
         }
-        fileChooser = JFileChooser().apply {
-            fileFilter = FileNameExtensionFilter("Видео-файлы анимации фракталов", "avi")
-        }
-        createVideoBtn.addMouseListener(object : MouseAdapter() {
-            override fun mouseClicked(e: MouseEvent?) {
-                fileChooser.dialogTitle = "Сохранение видео"
-                fileChooser.fileSelectionMode = JFileChooser.FILES_AND_DIRECTORIES
-                val result = fileChooser.showSaveDialog(this@AnimationFrame)
-                val videoMaker = VideoMaker(fractalPainter, selectablePanel)
-                videoMaker.secBetweenFrames = 2
-                videoMaker.addKeyFrames(keyFramesPanel.keyFrames)
-                videoMaker.createFrames()
-            }
-        })
+
+
 
         addKeyFrame = JButton().apply {
             text = "Добавить ключевой кадр"
+        }
+
+        makeVideo = JButton().apply {
+            text = "Записать видео"
         }
 
         addKeyFrame.addMouseListener(object : MouseAdapter() {
@@ -70,10 +46,30 @@ class AnimationFrame(private val selectablePanel: SelectablePanel, private val f
                 val img = BufferedImage(selectablePanel.width, selectablePanel.height, BufferedImage.TYPE_INT_RGB)
                 val imgGr = img.createGraphics()
                 selectablePanel.paint(imgGr)
-                keyFramesPanel.addKeyFramePanel(img, fractalPainter.plane)
+                keyFramesPanel.addKeyFrame(img)
+
+               /* with(keyFramesPanel.KFsize) {
+                    val keyFrame = KeyFramePanel(
+                        ImagePainter(
+                            img,
+                            Dimension(width - frameScroll.verticalScrollBar.width  , height)
+                        )
+                    )
+                    keyFramesPanel.addKeyFrame(keyFrame)
+                    if (keyFrame.y >= frameScroll.size.height) {
+                        frameScroll.preferredSize.height += keyFrame.size.height + keyFrame.Gap
+                        frameScroll.revalidate()
+                    }
+                    frameScroll.add(keyFrame)
+                }*/
             }
         })
 
+        makeVideo.addMouseListener(object : MouseAdapter() {
+            override fun mouseClicked(e: MouseEvent?) {
+
+            }
+        })
         ctrlPanel = JPanel().apply {
             background = Color.WHITE
             border = BorderFactory.createLineBorder(Color.BLACK)
@@ -102,35 +98,26 @@ class AnimationFrame(private val selectablePanel: SelectablePanel, private val f
                     .addGap(50)
                     .addGroup(
                         createParallelGroup(GroupLayout.Alignment.CENTER)
-                            .addComponent(kfLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE)
+                            .addComponent(animLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE)
                             .addGap(30)
                             .addComponent(frameScroll, 300, 300, 300)
                             .addGap(10)
                             .addComponent(addKeyFrame, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addGap(15)
-                            .addComponent(frameTimeLbl, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-                            .addGap(5)
-                            .addComponent(frameTimeSpinner, 100, GroupLayout.PREFERRED_SIZE, Int.MAX_VALUE)
-                            .addGap(5)
-                            .addComponent(createVideoBtn, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addGap(10)
+                            .addComponent(makeVideo, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                     )
                     .addGap(50)
             )
             setVerticalGroup(
                 createSequentialGroup()
                     .addGap(15)
-                    .addComponent(kfLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE)
+                    .addComponent(animLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE)
                     .addGap(30)
                     .addComponent(frameScroll, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE , 400)
                     .addGap(10)
                     .addComponent(addKeyFrame, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addGap(15)
-                    .addComponent(frameTimeLbl, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addGap(5)
-                    .addComponent(frameTimeSpinner, 20, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addGap(5)
-                    .addComponent(createVideoBtn, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addGap(30, 30 , Int.MAX_VALUE)
+                    .addComponent(makeVideo, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
         }
 

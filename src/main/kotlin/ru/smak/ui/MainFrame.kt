@@ -26,6 +26,8 @@ class MainFrame : JFrame() {
         openAnimFrame = JButton().apply {
             text = "Открыть экскурсию"
         }
+
+
         val painter = FractalPainter(
             Mandelbrot(),
             CartesianPlane(-2.0, 1.0, -1.0, 1.0),
@@ -51,7 +53,8 @@ class MainFrame : JFrame() {
                 animFrame.isVisible = true
             }
         })
-        
+
+
         layout = GroupLayout(contentPane).apply {
             setHorizontalGroup(
                 createSequentialGroup()
