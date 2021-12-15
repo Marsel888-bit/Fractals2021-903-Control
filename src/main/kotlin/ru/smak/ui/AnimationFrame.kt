@@ -15,6 +15,7 @@ class AnimationFrame(private val selectablePanel: SelectablePanel) : JFrame() {
     val frameScroll : JScrollPane
     val keyFramesPanel : JPanel
     val addKeyFrame : JButton
+    val makeVideo: JButton
     init {
         defaultCloseOperation = EXIT_ON_CLOSE
         title = "Экскурсия"
@@ -34,6 +35,10 @@ class AnimationFrame(private val selectablePanel: SelectablePanel) : JFrame() {
 
         addKeyFrame = JButton().apply {
             text = "Добавить ключевой кадр"
+        }
+
+        makeVideo = JButton().apply {
+            text = "Записать видео"
         }
 
         addKeyFrame.addMouseListener(object : MouseAdapter() {
@@ -57,6 +62,12 @@ class AnimationFrame(private val selectablePanel: SelectablePanel) : JFrame() {
                     }
                     frameScroll.add(keyFrame)
                 }*/
+            }
+        })
+
+        makeVideo.addMouseListener(object : MouseAdapter() {
+            override fun mouseClicked(e: MouseEvent?) {
+
             }
         })
         ctrlPanel = JPanel().apply {
@@ -92,6 +103,8 @@ class AnimationFrame(private val selectablePanel: SelectablePanel) : JFrame() {
                             .addComponent(frameScroll, 300, 300, 300)
                             .addGap(10)
                             .addComponent(addKeyFrame, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                            .addGap(10)
+                            .addComponent(makeVideo, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                     )
                     .addGap(50)
             )
@@ -104,6 +117,7 @@ class AnimationFrame(private val selectablePanel: SelectablePanel) : JFrame() {
                     .addGap(10)
                     .addComponent(addKeyFrame, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addGap(30, 30 , Int.MAX_VALUE)
+                    .addComponent(makeVideo, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
         }
 

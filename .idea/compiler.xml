@@ -6,8 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Fractals2021-903" />
         <module name="Fractals2021-903-Control" />
+        <module name="Fractals2021-903" />
       </profile>
     </annotationProcessing>
   </component>
