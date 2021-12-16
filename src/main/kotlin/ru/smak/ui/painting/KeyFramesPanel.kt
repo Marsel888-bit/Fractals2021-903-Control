@@ -12,6 +12,8 @@ import javax.swing.text.BoxView
 class KeyFramesPanel : JPanel() {
 
     private val KFwithGaps : ArrayList<Pair<GraphicsPanel,Component>> = arrayListOf()
+
+
     val keyFrames : ArrayList<GraphicsPanel>
         get() {
             val _keyFrames = arrayListOf<GraphicsPanel>()
@@ -24,9 +26,9 @@ class KeyFramesPanel : JPanel() {
     val KFsize = Dimension(300, 100)
     private val gap = 5
     private val borderSz = 1
+
     init {
         //layout = null
-
         layout = BoxLayout(this, BoxLayout.Y_AXIS).apply {
         }
 
@@ -71,6 +73,14 @@ class KeyFramesPanel : JPanel() {
         revalidate()
         repaint()
     }
+
+    /*fun addBuffImg(img: BufferedImage?) {
+        if (img != null){
+            buffImgList.add(img)
+        }
+    }*/
+
+    /*fun delBuffImg(img: BufferedImage) {*/
 
     // Производим правильное размещение ключевого кадра, при его добавлении
    /* private fun calcFramePosition(keyFrame: GraphicsPanel) {

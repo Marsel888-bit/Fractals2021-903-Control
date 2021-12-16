@@ -2,6 +2,7 @@ package ru.smak.ui
 
 import ru.smak.ui.painting.KeyFramesPanel
 import ru.smak.ui.painting.SelectablePanel
+import ru.smak.ui.painting.Video
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.event.MouseAdapter
@@ -16,6 +17,7 @@ class AnimationFrame(private val selectablePanel: SelectablePanel) : JFrame() {
     val keyFramesPanel : JPanel
     val addKeyFrame : JButton
     val makeVideo: JButton
+    val video = Video()
     init {
         defaultCloseOperation = EXIT_ON_CLOSE
         title = "Экскурсия"
@@ -47,6 +49,7 @@ class AnimationFrame(private val selectablePanel: SelectablePanel) : JFrame() {
                 val imgGr = img.createGraphics()
                 selectablePanel.paint(imgGr)
                 keyFramesPanel.addKeyFrame(img)
+                video.addBuffImg(img)
 
                /* with(keyFramesPanel.KFsize) {
                     val keyFrame = KeyFramePanel(
