@@ -70,9 +70,10 @@ class AnimationFrame(private val selectablePanel: SelectablePanel) : JFrame() {
 
         makeVideo.addMouseListener(object : MouseAdapter() {
             override fun mouseClicked(e: MouseEvent?) {
-
+                video.createVideo("Фрактал", "avi", 120, 15)
             }
         })
+
         ctrlPanel = JPanel().apply {
             background = Color.WHITE
             border = BorderFactory.createLineBorder(Color.BLACK)
