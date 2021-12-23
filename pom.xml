@@ -54,6 +54,11 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/graphics_panel.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>io.humble</groupId>
+            <artifactId>humble-video-all</artifactId>
+            <version>0.3.0</version>
+        </dependency>
     </dependencies>
 
     <build>
