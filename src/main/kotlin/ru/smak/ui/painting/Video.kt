@@ -34,9 +34,9 @@ class Video (private val painter: FractalPainter, private val selectablePanel: S
         val framerate = Rational.make(1 , fps) // кадровая частота
         val muxer = Muxer.make(fileName, null, formatName) // контейнер для файла
         val format = muxer.format
-        val codec: Codec = Codec.findEncodingCodec(format.defaultVideoCodecId) // кодек, подходящий для нашего формата - устройство для преобразования данных
+        val codec: Codec = Codec.findEncodingCodec(format.defaultVideoCodecId) // ищем кодек, подходящий для нашего формата - устройство для преобразования данных
 
-        val encoder = Encoder.make(codec) // создаём энкодер
+        val encoder = Encoder.make(codec) // создаём энкодер, главная задача которого - инкапсуляция информации о базовом формате данных
         val painter1 = painter
         encoder.width = painter1.plane.width // ширина кадров
         encoder.height = painter1.plane.height // высота кадров
@@ -68,10 +68,10 @@ class Video (private val painter: FractalPainter, private val selectablePanel: S
                     val currXmax = kf.second.xMax
                     val currYmin = kf.second.yMin
                     val currYmax = kf.second.yMax
-                    val xMaxRateOfChange = (currXmax - keyFrames.get(i + 1).second.xMax) / CountOfFrames
-                    val xMinRateOfChange = abs(currXmin - keyFrames.get(i + 1).second.xMin) / CountOfFrames
-                    val yMaxRateOfChange = (currYmax - keyFrames.get(i + 1).second.yMax) / CountOfFrames
-                    val yMinRateOfChange = abs(currYmin - keyFrames.get(i + 1).second.yMin) / CountOfFrames
+                    val xMaxRateOfChange = (currXmax - keyFrames.get(i + 1).second.xMax) / CountOfFrames // смещение для xMax
+                    val xMinRateOfChange = abs(currXmin - keyFrames.get(i + 1).second.xMin) / CountOfFrames // смещение для xMin
+                    val yMaxRateOfChange = (currYmax - keyFrames.get(i + 1).second.yMax) / CountOfFrames // для yMax
+                    val yMinRateOfChange = abs(currYmin - keyFrames.get(i + 1).second.yMin) / CountOfFrames // для Ymin
                     val _kf = kf
                     var subFrameNum = 0
                     while (j <= CountOfFrames * (i + 1)) {
