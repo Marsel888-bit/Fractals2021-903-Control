@@ -61,7 +61,7 @@ class Video (private val painter: FractalPainter, private val selectablePanel: S
 
         val packet = MediaPacket.make()
         var j = 0
-        while (j < duration / framerate.double) {
+            while (j < duration / framerate.double) {
             keyFrames.forEachIndexed { i, kf ->
                 if (i != keyFrames.size - 1) {
                     val currXmin = kf.second.xMin
@@ -71,7 +71,7 @@ class Video (private val painter: FractalPainter, private val selectablePanel: S
                     val xMaxRateOfChange = (currXmax - keyFrames.get(i + 1).second.xMax) / CountOfFrames // смещение для xMax
                     val xMinRateOfChange = abs(currXmin - keyFrames.get(i + 1).second.xMin) / CountOfFrames // смещение для xMin
                     val yMaxRateOfChange = (currYmax - keyFrames.get(i + 1).second.yMax) / CountOfFrames // для yMax
-                    val yMinRateOfChange = abs(currYmin - keyFrames.get(i + 1).second.yMin) / CountOfFrames // для Ymin
+                    val yMinRateOfChange = abs(currYmin - keyFrames.get(i + 1).second.yMin) / CountOfFrames // для yMin
                     val _kf = kf
                     var subFrameNum = 0
                     while (j <= CountOfFrames * (i + 1)) {
